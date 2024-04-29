@@ -22,13 +22,12 @@ import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { TStatus, TodoFormValues, status, todoFormSchema } from "@/schema";
+import { TodoFormValues, status, todoFormSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
@@ -51,7 +50,7 @@ function AddTodoForm() {
 
   return (
     <Dialog>
-      {/* Trigger for open modal */}
+      {/* Open modal */}
       <DialogTrigger asChild>
         <Button variant="outline">Add new todo</Button>
       </DialogTrigger>
@@ -66,7 +65,7 @@ function AddTodoForm() {
         {/* Form */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {/* Name */}
+            {/* Title */}
             <FormField
               control={form.control}
               name="title"
@@ -82,7 +81,7 @@ function AddTodoForm() {
               )}
             />
 
-            {/* Textarea */}
+            {/* Description */}
             <FormField
               control={form.control}
               name="body"
@@ -102,31 +101,41 @@ function AddTodoForm() {
             />
 
             {/* Select status */}
-            <Select
+            <FormField
+              control={form.control}
               name="status"
-              onValueChange={(state: TStatus) =>
-                form.setValue("status", state as TStatus)
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder={form.getValues("status")} />
-              </SelectTrigger>
-              <SelectContent defaultValue={form.getValues("status")}>
-                <SelectGroup>
-                  {status.map((stat) => {
-                    return (
-                      <SelectItem
-                        className="capitalize"
-                        key={stat}
-                        value={stat}
-                      >
-                        {stat}
-                      </SelectItem>
-                    );
-                  })}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Chooce status default one (todo)</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a status" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {status.map((stat) => {
+                        return (
+                          <SelectItem
+                            className="capitalize"
+                            key={stat}
+                            value={stat}
+                          >
+                            {stat}
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Submit */}
             <Button type="submit">Save changes</Button>
           </form>
         </Form>
