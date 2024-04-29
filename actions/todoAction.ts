@@ -6,7 +6,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const getAllTodos = async () => {
-  return await prisma.user.findMany();
+  return await prisma.todo.findMany();
 };
 
 export const addNewTodo = async ({ title, body, status }: TodoFormValues) => {
@@ -15,6 +15,14 @@ export const addNewTodo = async ({ title, body, status }: TodoFormValues) => {
       title,
       body,
       status,
+    },
+  });
+};
+
+export const deleteTodo = async (id: string) => {
+  return await prisma.todo.delete({
+    where: {
+      id,
     },
   });
 };
