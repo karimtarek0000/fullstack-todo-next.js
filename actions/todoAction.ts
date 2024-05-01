@@ -1,7 +1,6 @@
 "use server";
 
 import { ITodo } from "@/interface";
-import { TodoFormValues } from "@/schema";
 import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
