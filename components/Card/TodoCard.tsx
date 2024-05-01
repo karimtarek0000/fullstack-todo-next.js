@@ -34,7 +34,7 @@ function TodoCard({ todo }: { todo: ITodoCard }) {
         </div>
 
         <CardTitle>{title}</CardTitle>
-        <CardDescription>{body}</CardDescription>
+        <CardDescription className="text-lg">{body}</CardDescription>
       </CardHeader>
     </Card>
   );

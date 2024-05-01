@@ -7,14 +7,11 @@ export default async function Home() {
   const todos = await getAllTodos();
 
   return (
-    <main>
-      <ButtonOpenTodoModal />
-      <div className="max-w-[400px]">
-        <GridList
-          records={todos}
-          renderComp={(todo) => <TodoCard key={todo.id} todo={todo} />}
-        />
-      </div>
-    </main>
+    <div className="grid grid-cols-2 gap-4">
+      <GridList
+        records={todos}
+        renderComp={(todo) => <TodoCard key={todo.id} todo={todo} />}
+      />
+    </div>
   );
 }

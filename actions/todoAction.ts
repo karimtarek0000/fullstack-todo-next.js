@@ -2,6 +2,7 @@
 
 import { TodoFormValues } from "@/schema";
 import { PrismaClient } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 const prisma = new PrismaClient();
 
@@ -10,19 +11,22 @@ export const getAllTodos = async () => {
 };
 
 export const addNewTodo = async ({ title, body, status }: TodoFormValues) => {
-  return await prisma.todo.create({
+  await prisma.todo.create({
     data: {
       title,
       body,
       status,
     },
   });
+  revalidatePath("/");
 };
 
 export const deleteTodo = async (id: string) => {
-  return await prisma.todo.delete({
+  await prisma.todo.delete({
     where: {
       id,
     },
   });
+
+  revalidatePath("/");
 };

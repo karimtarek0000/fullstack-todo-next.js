@@ -3,7 +3,6 @@
 import { deleteTodo } from "@/actions/todoAction";
 import { Button } from "@/components/ui/button";
 import {
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -12,12 +11,14 @@ import {
 } from "@/components/ui/dialog";
 import { DialogControlContext } from "@/context/DialogControl";
 import { Loader2 } from "lucide-react";
-import { forwardRef, useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 
 export default function ConfirmDeleteTodoModal({ id = "" }: { id?: string }) {
+  // ----------------- STATE -----------------
   const { setDialog } = useContext(DialogControlContext);
   const [isLoading, setLoading] = useState(false);
 
+  // ----------------- HANDLER -----------------
   const deleteTodoHandler = async () => {
     try {
       setLoading(true);

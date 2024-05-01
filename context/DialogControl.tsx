@@ -1,4 +1,6 @@
 "use client";
+
+import Navbar from "@/components/Layout/Navbar";
 import ConfirmDeleteTodoModal from "@/components/Modals/ConfirmDeleteTodoModal";
 import TodoModal from "@/components/Modals/TodoModal";
 import { Dialog } from "@/components/ui/dialog";
@@ -17,6 +19,7 @@ interface IDialog {
   props?: { id: string };
 }
 interface IDialogControlContext {
+  dialog: IDialog;
   setDialog: Dispatch<SetStateAction<IDialog>>;
 }
 const modals = { TodoModal, ConfirmDeleteTodoModal };
@@ -34,11 +37,14 @@ function DialogControl({ children }: { children: ReactNode }) {
   const Comp = modals[dialog.compName];
 
   return (
-    <DialogControlContext.Provider value={{ setDialog }}>
-      {children}
+    <DialogControlContext.Provider value={{ dialog, setDialog }}>
+      <main className="container mx-auto flex flex-col">
+        <Navbar />
+        {children}
+      </main>
       <Dialog
         open={dialog.status}
-        onOpenChange={() => setDialog({ status: false, compName: "TodoModal" })}
+        onOpenChange={() => setDialog((prev) => ({ ...prev, status: false }))}
       >
         <Comp {...dialog.props} />
       </Dialog>

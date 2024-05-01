@@ -8,7 +8,7 @@ function ButtonOpenTodoModal() {
 
   return (
     <Button
-      className="capitalize"
+      className="capitalize text-lg"
       onClick={() =>
         setDialog({
           status: true,
