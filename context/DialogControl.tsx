@@ -4,6 +4,7 @@ import Navbar from "@/components/Layout/Navbar";
 import ConfirmDeleteTodoModal from "@/components/Modals/ConfirmDeleteTodoModal";
 import TodoModal from "@/components/Modals/TodoModal";
 import { Dialog } from "@/components/ui/dialog";
+import { ITodo } from "@/interface";
 import {
   createContext,
   Dispatch,
@@ -13,10 +14,11 @@ import {
 } from "react";
 
 type TModalsName = "TodoModal" | "ConfirmDeleteTodoModal";
+
 interface IDialog {
   status: boolean;
   compName: TModalsName;
-  props?: { id: string };
+  props?: Partial<ITodo>;
 }
 interface IDialogControlContext {
   dialog: IDialog;
@@ -31,8 +33,8 @@ export const DialogControlContext = createContext<IDialogControlContext>(
 function DialogControl({ children }: { children: ReactNode }) {
   const [dialog, setDialog] = useState<IDialog>({
     status: false,
-    compName: "TodoModal",
-    props: { id: "" },
+    compName: "ConfirmDeleteTodoModal",
+    props: {} as ITodo,
   });
   const Comp = modals[dialog.compName];
 
@@ -44,7 +46,9 @@ function DialogControl({ children }: { children: ReactNode }) {
       </main>
       <Dialog
         open={dialog.status}
-        onOpenChange={() => setDialog((prev) => ({ ...prev, status: false }))}
+        onOpenChange={() =>
+          setDialog((prev) => ({ ...prev, props: {}, status: false }))
+        }
       >
         <Comp {...dialog.props} />
       </Dialog>

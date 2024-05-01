@@ -1,5 +1,6 @@
 "use client";
 
+import { addNewTodo, updateTodo } from "@/actions/todoAction";
 import { Button } from "@/components/ui/button";
 import {
   DialogContent,
@@ -15,6 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -23,25 +25,27 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-
-import { addNewTodo } from "@/actions/todoAction";
-import { Input } from "@/components/ui/input";
 import { DialogControlContext } from "@/context/DialogControl";
-import { TodoFormValues, status, todoFormSchema } from "@/schema";
+import { ITodo } from "@/interface";
+import {
+  TodoFormValues,
+  status as selectStatus,
+  todoFormSchema,
+} from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const defaultValues: Partial<TodoFormValues> = {
-  title: "",
-  body: "",
-  status: "todo",
-};
-
-function TodoModal() {
+function TodoModal(props: ITodo) {
+  const { id, title = "", body = "", status = "todo" } = props;
   const [isLoading, setIsLoading] = useState(false);
   const { dialog, setDialog } = useContext(DialogControlContext);
+  const defaultValues: Partial<TodoFormValues> = {
+    title,
+    body,
+    status,
+  };
 
   // ----------------- HANDLER -----------------
   const form = useForm<TodoFormValues>({
@@ -49,11 +53,13 @@ function TodoModal() {
     defaultValues,
     mode: "onChange",
   });
-
-  const onSubmit = async (data: TodoFormValues) => {
+  const fnWithAction = (data: ITodo) => {
+    return id ? updateTodo({ ...data, id }) : addNewTodo(data);
+  };
+  const onSubmit = async (data: ITodo) => {
     try {
       setIsLoading(true);
-      await addNewTodo(data);
+      await fnWithAction(data);
       setDialog((prev) => ({ ...prev, status: false }));
     } catch (error) {
     } finally {
@@ -62,13 +68,18 @@ function TodoModal() {
   };
 
   useEffect(() => {
-    if (!dialog.status) form.reset();
-  }, [dialog.status, form]);
+    if (!dialog.status) form.clearErrors();
+    form.setValue("title", title);
+    form.setValue("body", body);
+    form.setValue("status", status);
+  }, [body, dialog.status, form, status, title]);
 
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle className="text-2xl">Add new todo</DialogTitle>
+        <DialogTitle className="text-2xl">
+          {id ? "Edit todo" : "Add new todo"}
+        </DialogTitle>
       </DialogHeader>
 
       {/* Form */}
@@ -127,7 +138,7 @@ function TodoModal() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {status.map((stat) => {
+                    {selectStatus.map((stat) => {
                       return (
                         <SelectItem
                           className="capitalize text-lg"
@@ -162,7 +173,7 @@ function TodoModal() {
               type="submit"
             >
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Save changes
+              {id ? "Update" : "Add"}
             </Button>
           </div>
         </form>

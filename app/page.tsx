@@ -1,7 +1,7 @@
 import { getAllTodos } from "@/actions/todoAction";
 import TodoCard from "@/components/Card/TodoCard";
-import ButtonOpenTodoModal from "@/components/Modals/ButtonOpenTodoModal";
 import GridList from "@/components/ui/GridList";
+import { ITodo } from "@/interface";
 
 export default async function Home() {
   const todos = await getAllTodos();
@@ -10,7 +10,7 @@ export default async function Home() {
     <div className="grid grid-cols-2 gap-4">
       <GridList
         records={todos}
-        renderComp={(todo) => <TodoCard key={todo.id} todo={todo} />}
+        renderComp={(todo) => <TodoCard key={todo.id} todo={todo as ITodo} />}
       />
     </div>
   );

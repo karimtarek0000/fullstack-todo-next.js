@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -6,13 +7,31 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DialogControlContext } from "@/context/DialogControl";
+import { ITodo } from "@/interface";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
-import { MoreHorizontal, Trash2 } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { useContext } from "react";
 
-function TodoActions({ id }: { id: string }) {
+function TodoActions({ todo }: { todo: ITodo }) {
   const { setDialog } = useContext(DialogControlContext);
 
+  // ----------------- HANDLER -----------------
+  const editHandler = () => {
+    setDialog({
+      status: true,
+      compName: "TodoModal",
+      props: todo,
+    });
+  };
+  const deleteHandler = () => {
+    setDialog({
+      status: true,
+      compName: "ConfirmDeleteTodoModal",
+      props: { id: todo.id },
+    });
+  };
+
+  // ----------------- RENDER -----------------
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -26,20 +45,24 @@ function TodoActions({ id }: { id: string }) {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end">
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem className="flex justify-start" asChild>
           <Button
-            onClick={() =>
-              setDialog({
-                status: true,
-                compName: "ConfirmDeleteTodoModal",
-                props: { id },
-              })
-            }
+            onClick={deleteHandler}
             variant="outline"
             className="flex w-full items-center gap-1 ring-0 focus-visible:ring-0 border-0 hover:ring-0 focus-visible:ring-offset-0"
           >
             <Trash2 size={15} />
             Delete
+          </Button>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="flex justify-start" asChild>
+          <Button
+            onClick={editHandler}
+            variant="outline"
+            className="flex w-full items-center gap-1 ring-0 focus-visible:ring-0 border-0 hover:ring-0 focus-visible:ring-offset-0"
+          >
+            <Pencil size={15} />
+            Edit
           </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>
