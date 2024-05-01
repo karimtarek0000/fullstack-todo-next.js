@@ -40,7 +40,7 @@ import { useForm } from "react-hook-form";
 function TodoModal(props: ITodo) {
   const { id, title = "", body = "", status = "todo" } = props;
   const [isLoading, setIsLoading] = useState(false);
-  const { dialog, setDialog } = useContext(DialogControlContext);
+  const { dialog, closeModal } = useContext(DialogControlContext);
   const defaultValues: Partial<TodoFormValues> = {
     title,
     body,
@@ -60,7 +60,7 @@ function TodoModal(props: ITodo) {
     try {
       setIsLoading(true);
       await fnWithAction(data);
-      setDialog((prev) => ({ ...prev, status: false }));
+      closeModal();
     } catch (error) {
     } finally {
       setIsLoading(false);
@@ -160,9 +160,9 @@ function TodoModal(props: ITodo) {
           <div className="flex items-center justify-end gap-3">
             <Button
               variant="outline"
-              disabled={isLoading}
               className="text-sm"
-              type="submit"
+              type="button"
+              onClick={closeModal}
             >
               Cancel
             </Button>

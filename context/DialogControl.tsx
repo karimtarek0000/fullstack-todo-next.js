@@ -23,6 +23,7 @@ interface IDialog {
 interface IDialogControlContext {
   dialog: IDialog;
   setDialog: Dispatch<SetStateAction<IDialog>>;
+  closeModal: () => void;
 }
 const modals = { TodoModal, ConfirmDeleteTodoModal };
 
@@ -38,18 +39,18 @@ function DialogControl({ children }: { children: ReactNode }) {
   });
   const Comp = modals[dialog.compName];
 
+  // ----------------- HANDLER -----------------
+  const closeModal = () => {
+    setDialog((prev) => ({ ...prev, props: {}, status: false }));
+  };
+
   return (
-    <DialogControlContext.Provider value={{ dialog, setDialog }}>
+    <DialogControlContext.Provider value={{ dialog, setDialog, closeModal }}>
       <main className="container mx-auto flex flex-col">
         <Navbar />
         {children}
       </main>
-      <Dialog
-        open={dialog.status}
-        onOpenChange={() =>
-          setDialog((prev) => ({ ...prev, props: {}, status: false }))
-        }
-      >
+      <Dialog open={dialog.status} onOpenChange={closeModal}>
         <Comp {...dialog.props} />
       </Dialog>
     </DialogControlContext.Provider>

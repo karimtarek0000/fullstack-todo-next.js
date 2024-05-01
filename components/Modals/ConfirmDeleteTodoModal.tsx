@@ -15,7 +15,7 @@ import { useContext, useState } from "react";
 
 export default function ConfirmDeleteTodoModal({ id = "" }: { id?: string }) {
   // ----------------- STATE -----------------
-  const { setDialog } = useContext(DialogControlContext);
+  const { closeModal } = useContext(DialogControlContext);
   const [isLoading, setLoading] = useState(false);
 
   // ----------------- HANDLER -----------------
@@ -23,7 +23,7 @@ export default function ConfirmDeleteTodoModal({ id = "" }: { id?: string }) {
     try {
       setLoading(true);
       await deleteTodo(id);
-      setDialog((prev) => ({ ...prev, status: false }));
+      closeModal();
     } catch (error) {
       console.log("delete");
     } finally {
@@ -41,7 +41,15 @@ export default function ConfirmDeleteTodoModal({ id = "" }: { id?: string }) {
         </DialogDescription>
       </DialogHeader>
 
-      <DialogFooter>
+      <DialogFooter className="flex items-center">
+        <Button
+          variant="outline"
+          className="text-sm"
+          type="button"
+          onClick={closeModal}
+        >
+          Cancel
+        </Button>
         <Button
           disabled={isLoading}
           onClick={deleteTodoHandler}
