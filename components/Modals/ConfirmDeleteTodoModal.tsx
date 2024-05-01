@@ -1,5 +1,6 @@
 "use client";
 
+import { deleteTodo } from "@/actions/todoAction";
 import { Button } from "@/components/ui/button";
 import {
   DialogClose,
@@ -9,22 +10,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { DialogControlContext } from "@/context/DialogControl";
 import { Loader2 } from "lucide-react";
-import { forwardRef, useRef } from "react";
+import { forwardRef, useContext, useRef, useState } from "react";
 
-interface IConfirmDeleteModal {
-  deleteFn: () => Promise<any>;
-  isLoading?: boolean;
-}
+export default function ConfirmDeleteTodoModal({ id = "" }: { id?: string }) {
+  const { setDialog } = useContext(DialogControlContext);
+  const [isLoading, setLoading] = useState(false);
 
-// eslint-disable-next-line react/display-name
-const ConfirmDeleteModal = forwardRef((props: IConfirmDeleteModal, ref) => {
-  const { deleteFn, isLoading } = props;
-  const closeModalRef = useRef<any>(null);
-
-  const confirmModal = async () => {
-    await deleteFn();
-    closeModalRef.current.click();
+  const deleteTodoHandler = async () => {
+    try {
+      setLoading(true);
+      await deleteTodo(id);
+      setDialog((prev) => ({ ...prev, status: false }));
+    } catch (error) {
+      console.log("delete");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -40,17 +43,14 @@ const ConfirmDeleteModal = forwardRef((props: IConfirmDeleteModal, ref) => {
       <DialogFooter>
         <Button
           disabled={isLoading}
-          onClick={confirmModal}
+          onClick={deleteTodoHandler}
           className="ring-0 bg-red-700 text-white hover:bg-red-700/80"
           type="submit"
         >
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Delete
         </Button>
-        <DialogClose ref={closeModalRef} />
       </DialogFooter>
     </DialogContent>
   );
-});
-
-export default ConfirmDeleteModal;
+}

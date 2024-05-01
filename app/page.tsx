@@ -1,6 +1,6 @@
 import { getAllTodos } from "@/actions/todoAction";
-import AddTodoForm from "@/components/AddTodoForm";
 import TodoCard from "@/components/Card/TodoCard";
+import ButtonOpenTodoModal from "@/components/Modals/ButtonOpenTodoModal";
 import GridList from "@/components/ui/GridList";
 
 export default async function Home() {
@@ -8,7 +8,7 @@ export default async function Home() {
 
   return (
     <main>
-      <AddTodoForm />
+      <ButtonOpenTodoModal />
       <div className="max-w-[400px]">
         <GridList
           records={todos}

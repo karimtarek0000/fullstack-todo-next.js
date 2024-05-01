@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@/app/provider/ThemeProvider";
+import DialogControl from "@/context/DialogControl";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -25,7 +26,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <DialogControl>{children}</DialogControl>
         </ThemeProvider>
       </body>
     </html>

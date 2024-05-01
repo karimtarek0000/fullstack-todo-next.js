@@ -2,13 +2,7 @@
 
 import { addNewTodo } from "@/actions/todoAction";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -57,11 +51,6 @@ function AddTodoForm() {
 
       {/* Content */}
       <DialogContent className="sm:max-w-[425px]">
-        {/* Header */}
-        <DialogHeader>
-          <DialogTitle>Add New Todo</DialogTitle>
-        </DialogHeader>
-
         {/* Form */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
