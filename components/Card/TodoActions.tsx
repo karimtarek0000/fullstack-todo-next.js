@@ -47,22 +47,22 @@ function TodoActions({ todo }: { todo: ITodo }) {
       <DropdownMenuContent align="end">
         <DropdownMenuItem className="flex justify-start" asChild>
           <Button
-            onClick={deleteHandler}
-            variant="outline"
-            className="flex w-full items-center gap-1 ring-0 focus-visible:ring-0 border-0 hover:ring-0 focus-visible:ring-offset-0"
-          >
-            <Trash2 size={15} />
-            Delete
-          </Button>
-        </DropdownMenuItem>
-        <DropdownMenuItem className="flex justify-start" asChild>
-          <Button
             onClick={editHandler}
             variant="outline"
             className="flex w-full items-center gap-1 ring-0 focus-visible:ring-0 border-0 hover:ring-0 focus-visible:ring-offset-0"
           >
             <Pencil size={15} />
             Edit
+          </Button>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="flex justify-start" asChild>
+          <Button
+            onClick={deleteHandler}
+            variant="outline"
+            className="flex w-full items-center gap-1 ring-0 focus-visible:ring-0 border-0 hover:ring-0 focus-visible:ring-offset-0"
+          >
+            <Trash2 size={15} />
+            Delete
           </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>
