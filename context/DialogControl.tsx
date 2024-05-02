@@ -46,10 +46,7 @@ function DialogControl({ children }: { children: ReactNode }) {
 
   return (
     <DialogControlContext.Provider value={{ dialog, setDialog, closeModal }}>
-      <main className="container mx-auto flex flex-col">
-        <Navbar />
-        {children}
-      </main>
+      {children}
       <Dialog open={dialog.status} onOpenChange={closeModal}>
         <Comp {...dialog.props} />
       </Dialog>
