@@ -10,7 +10,7 @@ export default async function Home() {
   return (
     <main className="flex flex-col container">
       <Navbar />
-      <section className="grid grid-cols-2 gap-4">
+      <section className="grid md:grid-cols-2 gap-4">
         <GridList
           records={todos}
           renderComp={(todo) => <TodoCard key={todo.id} todo={todo as ITodo} />}
