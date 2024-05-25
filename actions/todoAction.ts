@@ -1,13 +1,18 @@
 "use server";
 
 import { ITodo } from "@/interface";
+import { auth } from "@clerk/nextjs/server";
 import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 const prisma = new PrismaClient();
 
-export const getAllTodos = async () => {
-  return await prisma.todo.findMany();
+export const getAllUserTodos = async () => {
+  return await prisma.todo.findMany({
+    where: {
+      user_id: auth().userId,
+    },
+  });
 };
 export const addNewTodo = async (todo: ITodo) => {
   const { title, body, status } = todo;
@@ -17,6 +22,7 @@ export const addNewTodo = async (todo: ITodo) => {
       title,
       body,
       status,
+      user_id: auth().userId,
     },
   });
 
@@ -28,6 +34,7 @@ export const updateTodo = async (todo: ITodo) => {
   await prisma.todo.update({
     where: {
       id,
+      user_id: auth().userId,
     },
     data: {
       title,
@@ -42,6 +49,7 @@ export const deleteTodo = async (id: string) => {
   await prisma.todo.delete({
     where: {
       id,
+      user_id: auth().userId,
     },
   });
 

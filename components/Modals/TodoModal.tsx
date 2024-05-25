@@ -62,6 +62,7 @@ function TodoModal(props: ITodo) {
       await fnWithAction(data);
       closeModal();
     } catch (error) {
+      console.log(error);
     } finally {
       setIsLoading(false);
     }

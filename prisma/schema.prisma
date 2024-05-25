@@ -12,15 +12,8 @@ model Todo {
   title     String
   body      String?
   status    Status   @default(todo)
+  user_id   String?
   createdAt DateTime @default(now())
-}
-
-model User {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  email      String   @unique
-  name       String
-  profileImg String
-  createdAt  DateTime @default(now())
 }
 
 enum Status {
@@ -28,3 +21,11 @@ enum Status {
   progress
   todo
 }
+
+// model User {
+//   id         String   @id @default(auto()) @map("_id") @db.ObjectId
+//   email      String   @unique
+//   name       String
+//   profileImg String
+//   createdAt  DateTime @default(now())
+// }

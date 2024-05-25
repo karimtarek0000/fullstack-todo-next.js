@@ -18,10 +18,10 @@ function TodoCard({ todo }: { todo: ITodo }) {
   const { title, body, status } = todo;
 
   return (
-    <Card className="border border-white/30">
+    <Card className="border dark:border-white/30 border-black/30">
       <CardHeader className="space-y-4 p-5">
         <div className="flex justify-between items-center">
-          <CardTitle className="text-sm flex items-center gap-1 capitalize text-orange-200">
+          <CardTitle className="text-sm flex items-center gap-1 capitalize text-black/80 dark:text-orange-200">
             {icons[status]} {status}
           </CardTitle>
           <TodoActions todo={todo} />
