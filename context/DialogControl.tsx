@@ -34,10 +34,18 @@ export const DialogControlContext = createContext<IDialogControlContext>(
 function DialogControl({ children }: { children: ReactNode }) {
   const [dialog, setDialog] = useState<IDialog>({
     status: false,
-    compName: "ConfirmDeleteTodoModal",
+    compName: "TodoModal",
     props: {} as ITodo,
   });
   const Comp = modals[dialog.compName];
+
+  const props = dialog.props;
+  const modalProps: ITodo = {
+    id: props?.id,
+    title: props?.title,
+    body: props?.body,
+    status: props?.status,
+  };
 
   // ----------------- HANDLER -----------------
   const closeModal = () => {
@@ -48,7 +56,7 @@ function DialogControl({ children }: { children: ReactNode }) {
     <DialogControlContext.Provider value={{ dialog, setDialog, closeModal }}>
       {children}
       <Dialog open={dialog.status} onOpenChange={closeModal}>
-        <Comp {...dialog.props} />
+        <Comp {...modalProps} />
       </Dialog>
     </DialogControlContext.Provider>
   );
