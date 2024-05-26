@@ -1,6 +1,5 @@
 "use client";
 
-import Navbar from "@/components/Layout/Navbar";
 import ConfirmDeleteTodoModal from "@/components/Modals/ConfirmDeleteTodoModal";
 import TodoModal from "@/components/Modals/TodoModal";
 import { Dialog } from "@/components/ui/dialog";
