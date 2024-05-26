@@ -1,7 +1,7 @@
 # Todo | Fullstack Next js
 
 - Next with typescript
-- Prisma with monogodb
+- Prisma with mongodb and atlas
 - Authentication with Clerk
 - Shadcn Ui
 - Taliwindcss
