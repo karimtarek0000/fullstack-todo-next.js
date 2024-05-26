@@ -2,7 +2,7 @@ import { TStatus } from "@/schema";
 
 export interface ITodo {
   id?: string;
-  title?: string;
+  title: string;
   body?: string | undefined;
-  status?: TStatus;
+  status: TStatus;
 }

@@ -42,9 +42,9 @@ function DialogControl({ children }: { children: ReactNode }) {
   const props = dialog.props;
   const modalProps: ITodo = {
     id: props?.id,
-    title: props?.title,
+    title: props?.title ?? "",
     body: props?.body,
-    status: props?.status,
+    status: props?.status ?? "todo",
   };
 
   // ----------------- HANDLER -----------------
