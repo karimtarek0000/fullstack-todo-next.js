@@ -12,6 +12,7 @@ import {
 import { DialogControlContext } from "@/context/DialogControl";
 import { Loader2 } from "lucide-react";
 import { useContext, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function ConfirmDeleteTodoModal({ id = "" }: { id?: string }) {
   // ----------------- STATE -----------------
@@ -23,9 +24,10 @@ export default function ConfirmDeleteTodoModal({ id = "" }: { id?: string }) {
     try {
       setLoading(true);
       await deleteTodo(id);
+      toast.success("Todo deleted successfully");
       closeModal();
     } catch (error) {
-      console.log("delete");
+      toast.error(error as string);
     } finally {
       setLoading(false);
     }

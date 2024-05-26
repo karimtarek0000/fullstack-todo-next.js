@@ -36,6 +36,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 function TodoModal(props: ITodo) {
   const { id, title = "", body = "", status = "todo" } = props;
@@ -56,13 +57,19 @@ function TodoModal(props: ITodo) {
   const fnWithAction = (data: ITodo) => {
     return id ? updateTodo({ ...data, id }) : addNewTodo(data);
   };
+  const alert = () => {
+    return id
+      ? toast.success("Todo updated successfully")
+      : toast.success("Todo added successfully");
+  };
   const onSubmit = async (data: ITodo) => {
     try {
       setIsLoading(true);
       await fnWithAction(data);
+      alert();
       closeModal();
     } catch (error) {
-      console.log(error);
+      toast.error(error as string);
     } finally {
       setIsLoading(false);
     }
